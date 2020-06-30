@@ -2,30 +2,24 @@
 
 namespace App\Notifications;
 
-use App\Entities\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Auth;
 
-class UserCreateNotification extends Notification implements ShouldQueue
+class SendInactiveEmailNotification extends Notification implements ShouldQueue
 {
     use Queueable;
-
-    public $user,$ownerName; 
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-     public function __construct($user,$ownerName)
+    public function __construct()
     {
-        $this->user = $user;
-        $this->ownerName = $ownerName;
-    } 
+        //
+    }
 
     /**
      * Get the notification's delivery channels.
@@ -35,7 +29,20 @@ class UserCreateNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['database','broadcast'];
+        return ['mail'];
+    }
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+                    ->line('You are inactive for a while')
+                    ->line('Please active your account');
     }
 
     /**
@@ -47,7 +54,7 @@ class UserCreateNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            "message" => $this->ownerName." created a user ".$this->user->name."(".$this->user->email.")"
+            //
         ];
     }
 }

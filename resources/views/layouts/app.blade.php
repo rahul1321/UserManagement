@@ -107,11 +107,14 @@
         toastr.success("{{ Session::get('message') }}");
     @endif
 
-    var userId = $('meta[name="userId"]').attr('content');
-    Echo.private('App.Entities.User.' + userId)
-    .notification((notification) => {
-        toastr.success(notification.message);
-    });
+    @auth
+        var userId = $('meta[name="userId"]').attr('content');
+        Echo.private('App.Entities.User.' + userId)
+        .notification((notification) => {
+            toastr.success(notification.message);
+        });
+    @endauth
+   
 </script>
 
 @yield('script')

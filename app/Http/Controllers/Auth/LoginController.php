@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 
 class LoginController extends Controller
@@ -91,5 +93,34 @@ class LoginController extends Controller
         return $request->wantsJson()
             ? new Response('', 204)
             : redirect('/login');
+    }
+
+
+
+    /**
+     * Redirect the user to the GitHub authentication page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function redirectToProvider()
+    {
+        return Socialite::driver('github')->redirect();
+    }
+
+    /**
+     * Obtain the user information from GitHub.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function handleProviderCallback()
+    {
+        $user = Socialite::driver('github')->user();
+
+        $user = User::where('email',$user->email)->first();
+       
+       Auth::login($user,true);
+        
+       return redirect()->route('users.index');
+        // $user->token;
     }
 }
