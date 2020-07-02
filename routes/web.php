@@ -26,8 +26,8 @@ Route::redirect('/', '/login');
 
 Auth::routes(['verify' => true]);
 
-Route::get('login/github', 'Auth\LoginController@redirectToProvider');
-Route::get('login/github/callback', 'Auth\LoginController@handleProviderCallback');
+Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider');
+Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
 
 Route::group(['middleware' => 'verified','auth'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
@@ -40,4 +40,5 @@ Route::group(['middleware' => 'verified','auth'], function () {
     });
 }); 
 
+Route::get('/pdf','UsersController@downloadPdf')->name('pdf.download');
 

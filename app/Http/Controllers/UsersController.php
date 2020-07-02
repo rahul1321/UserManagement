@@ -13,6 +13,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Notifications\UserCreateNotification;
 use App\Repositories\UserRepository;
 use App\Validators\UserValidator;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
@@ -233,5 +234,21 @@ class UsersController extends Controller
         });
        
         Notification::send($users,new UserCreateNotification($createdUser,auth()->user()->name));
+    }
+
+
+    
+
+    public function downloadPdf(){
+
+        $users = $this->repository->findByField('customer_id',auth()->user()->customer->id);
+
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf = $pdf->loadView('pdf.users',['users' => $users]);
+        $pdf->setOptions([
+            'footer-right' => '[page]',
+            'footer-line' => true,
+        ]);
+        return $pdf->download('users.pdf');
     }
 }

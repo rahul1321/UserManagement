@@ -64,11 +64,17 @@
                             </div>
                         </div>
                     </form>
+                    <div class="col-md-8 offset-md-4">
+                        <span class="or-text">OR</span>
+                    </div>
                     <div class="col-md-8 offset-md-4" style="padding-left: 10px;margin-top:5px;">
-                        <a href={{URL::to('login/github')}}>
-                            <button class="btn btn-primary" style="background: #523d3d;">
-                                Login with GitHub
-                            </button>
+                        <a href={{URL::to('login/github')}} class="btn btn-social btn-github">
+                            <span class="fa fa-github"></span> Sign in with GitHub
+                        </a>
+                    </div>
+                    <div class="col-md-8 offset-md-4" style="padding-left: 10px;margin-top:5px;">
+                        <a href={{URL::to('login/google')}} class="btn btn-social btn-google">
+                            <span class="fa fa-google"></span> Sign in with Google
                         </a>
                     </div>
                 </div>

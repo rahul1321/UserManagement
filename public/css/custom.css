@@ -310,3 +310,16 @@
         margin-bottom: 15px !important;
     }
 }
+
+
+.or-text{
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background: #103d63;
+    color: #fff;
+    padding: 3px;
+    margin: 5px;
+    text-align: center;
+    border-radius: 100%;
+}
